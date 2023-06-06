@@ -15,9 +15,10 @@ def get_password_leaks_count(hashes, hash_to_check):
   hashes=(line.split(':') for line in hashes.text.splitlines())
   for h, count in hashes:
    if h== hash_to_check:
-    return count
+    return int(count)
   return 0
-
+  password="password123"
+  count = pwned_api_check(password)
 def request_api_data(query_char):
   url = 'https://api.pwnedpasswords.com/range/' + query_char
   res = requests.get(url)
@@ -35,7 +36,7 @@ def main(args):
   for password in args:
     count= pwned_api_check(password)
     if count:
-      print('{password} was found {count} times you should probably change your password!')
+      print(f'{password} was found {count} times you should probably change your password!')
     else:
       print(f' {password} was not found! Carry On :)')
       return 'done!' 
